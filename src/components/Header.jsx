@@ -8,16 +8,14 @@ function Header() {
     const {user, isSignedIn} = useUser();
     console.log(isSignedIn);
   return (
-    <div className='absolute top-0 left-0 flex justify-between items-center shadow-sm p-5 w-full'>
+    <div className='absolute top-0 left-0 flex justify-between items-center shadow-sm p-5 w-full h-20'>
         <img src="" alt="" width={150} height={100} />
 
-        <ul className='hidden md:flex gap-16 font-medium'>
-            <li>Home</li>
-            <li>Search</li>
-            <li>New</li>
-            <li>Preowned</li>
-            
-           
+        <ul className='hidden md:flex gap-16'>
+            <li className='font-medium hover:scale-105 transition-all cursor-pointer hover:text-primary'>Home</li>
+            <li className='font-medium hover:scale-105 transition-all cursor-pointer hover:text-primary'>Search</li>
+            <li className='font-medium hover:scale-105 transition-all cursor-pointer hover:text-primary'>New</li>
+            <li className='font-medium hover:scale-105 transition-all cursor-pointer hover:text-primary'>Preowned</li>
         </ul>
 
         
