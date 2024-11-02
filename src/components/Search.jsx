@@ -34,7 +34,7 @@ import {
              </SelectTrigger>
            
             <SelectContent>
-                {Data.CarList.map((maker,index)=>(<SelectItem key={maker.id}value="maker.name">{maker.name}</SelectItem>))}
+                {Data.CarList.map((maker,index)=>(<SelectItem key={maker.id} value={maker.name}>{maker.name}</SelectItem>))}
  
 
             </SelectContent>
@@ -47,7 +47,7 @@ import {
                 <SelectValue placeholder="Pricing" />
              </SelectTrigger>
              <SelectContent>
-                {Data.CarPricing.map((amount,index)=>(<SelectItem key={amount.id}value="amount.Price">{amount.Price}</SelectItem>))}
+                {Data.CarPricing.map((amount,index)=>(<SelectItem key={amount.id} value={amount.Price}>{amount.Price}</SelectItem>))}
  
             </SelectContent>
         </Select>

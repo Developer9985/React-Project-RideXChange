@@ -8,7 +8,8 @@ import {
 } from "react-router-dom";
 import Home from './Home';
 import Contact from './contact';
-
+import Profile from './Profile';
+import AddListing from './add-listing';
 const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY
 
 if (!PUBLISHABLE_KEY) {
@@ -23,6 +24,15 @@ const router = createBrowserRouter([
   {
     path:'/contact',
     element:<Contact/> 
+  },
+
+  {
+    path: '/profile',
+    element: <Profile/>,
+  },
+  {
+      path:'/add-listing',
+      element: <AddListing/>
   }
 ]);
 

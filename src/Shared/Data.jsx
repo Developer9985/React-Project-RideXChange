@@ -26,15 +26,15 @@ const CarPricing =[
         },
         {
             id:2,
-            Price:"1000000$"
+            Price:"1200000$"
         },
         {
             id:3,
-            Price:"1000000$"
+            Price:"1300000$"
         },
         {
             id:4,
-            Price:"1000000$"
+            Price:"100000$"
         },
     
 ];
