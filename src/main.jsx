@@ -2,6 +2,7 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
 import { ClerkProvider } from '@clerk/clerk-react'
+import {NextUIProvider} from '@nextui-org/react'
 import {
   createBrowserRouter,
   RouterProvider,
@@ -39,10 +40,17 @@ const router = createBrowserRouter([
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <ClerkProvider publishableKey={PUBLISHABLE_KEY} afterSignOutUrl="/">
 
-    <RouterProvider router={router}/>
-    </ClerkProvider>
+
+    <NextUIProvider>
+
+          <ClerkProvider publishableKey={PUBLISHABLE_KEY} afterSignOutUrl="/">
+
+          <RouterProvider router={router}/>
+          </ClerkProvider>
+      
+    </NextUIProvider>
+    
     
   </StrictMode>
 )
