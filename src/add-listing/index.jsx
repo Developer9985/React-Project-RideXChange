@@ -10,14 +10,17 @@ import features from '@/Shared/features.json'
 // import { Checkbox } from 'primereact/checkbox';
 // import { Checkbox } from "@/components/ui/checkbox"
 import {Checkbox} from "@nextui-org/checkbox";
-import {db} from './../../configs'
+import {db} from './../../configs';
 import { Button } from '@nextui-org/react'
 import { CarListing } from './../../configs/schema'
 import IconField from './Components/IconField'
 import UploadImages from './Components/UploadImages'
-
+import { LuLoader2 } from "react-icons/lu";
+import { useNavigate } from 'react-router-dom'
+import {useUser} from '@clerk/clerk-react'
+// import moments from 'moments'
 // import CheckboxFeild from './Components/CheckboxFeild'
-
+import { format } from 'date-fns';
   
 
 function AddListing() {
@@ -26,6 +29,14 @@ function AddListing() {
 
     const [formData, setFormData] = useState([]);
     const [featureData, setFeatureData] = useState([]);
+    const [triggerUploadImages,setTriggerUploadImages] = useState();
+
+    const [loader, setLoader] = useState(false);
+
+    const navigate = useNavigate();
+
+    const {user} = useUser();
+
 
     
 
@@ -62,6 +73,7 @@ function AddListing() {
 
 
       const onsubmit= async(e) =>{
+        setLoader(true)
         e.preventDefault();
         console.log(formData);
         
@@ -71,12 +83,22 @@ function AddListing() {
             const result = await db.insert(CarListing).values({
 
                 ...formData,
-                features:formattedFeatures
-            });
+                features:formattedFeatures,
+
+                createdBy:user?.primaryEmailAddress?.emailAddress,
+                postedOn:format(new Date(), 'dd/MM/yyyy'),
+            },
+
+        
+        
+        ).returning({id:CarListing.id});
 
             if(result){
 
                 console.log("Data saved")
+                setTriggerUploadImages(result[0]?.id);
+                setLoader(false);
+
             }
 
         }catch(e){
@@ -143,16 +165,21 @@ function AddListing() {
 
                     {/* Car images */}
 
-                   
+                    <UploadImages triggerUploadImages={triggerUploadImages} 
+                    setLoader={(v) => {setLoader(v);navigate('/profile')}}/>
 
                     
 
-                    <div className='mt-16 w-full h-[50px] flex justify-center'>
-                        <Button className='bg-black text-white size-32' onClick={(e)=>onsubmit(e)}>Submit</Button>
+                    <div className='mt-16 w-full h-[50px] flex justify-center text-white'>
+                        <Button 
+                        isDisabled={loader}
+                        className='bg-black text-white size-32' onClick={(e)=>onsubmit(e)}>
+                            {!loader?'Submit':<LuLoader2 className='animate-spin size-6'/>}
+                            </Button>
                     </div>
 
             </form>
-            <UploadImages/>
+            
             
         </div>
     </div>

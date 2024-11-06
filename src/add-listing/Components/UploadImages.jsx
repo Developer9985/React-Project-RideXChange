@@ -1,15 +1,32 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {Button, ButtonGroup} from "@nextui-org/button";
 import { IoCloseCircle } from "react-icons/io5";
 import { Content } from '@radix-ui/react-select';
 import { uploadBytes,ref, getDownloadURL } from 'firebase/storage';
 import { Upload } from 'lucide-react';
 import { storage } from './../../../configs/firebaseConfig.js';
-function UploadImages() {
+import { db } from "./../../../configs";
+import { CarImages} from './../../../configs/schema';
+
+
+
+
+function UploadImages({triggerUploadImages,setLoader}) {
 
     const [selectedFileList, setSelectedFileList] = useState([])
     const [uploading, setUploading] = useState(false);
     const [uploadSuccess, setUploadSuccess] = useState(false);
+    
+
+    useEffect(()=>{
+
+        if(triggerUploadImages)
+        {
+            UploadImagesToServer();
+        }
+
+
+    },[triggerUploadImages])
 
     const onFileSelected = (event)=>{
 
@@ -29,8 +46,10 @@ function UploadImages() {
 
     }
 
-    const UploadImages=()=>{
-        selectedFileList.forEach((file)=>{
+    const UploadImagesToServer= async()=>{
+
+        setLoader(true);
+     await   selectedFileList.forEach((file)=>{
 
             const fileName = Date.now()+'.jpeg';
             const storageRef = ref(storage,'RideXChange/'+fileName);
@@ -40,7 +59,22 @@ function UploadImages() {
 
             uploadBytes(storageRef,file,metaData).then((snapShot)=>{
                 console.log("Upload Sucess");
+            }).then(resp=>{
+                getDownloadURL(storageRef).then(async(downloadUrl)=>{
+                    console.log(downloadUrl);
+
+                    await db.insert(CarImages).values({
+                        imageUrl:downloadUrl,
+                        CarListingId:triggerUploadImages
+                    })
+                    
+                })
             })
+
+
+            setLoader(false);
+
+
         })
     }
 
@@ -82,7 +116,7 @@ function UploadImages() {
                 
             
         </div>
-        <Button onClick={UploadImages} className='bg-black text-white mt-4 p-4'>Upload Image</Button>
+        
     </div>
   )
 }
