@@ -11,6 +11,7 @@ import Home from './Home';
 import Contact from './contact';
 import Profile from './Profile';
 import AddListing from './add-listing';
+import SearchByCategory from './search/[category]'
 const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY
 
 if (!PUBLISHABLE_KEY) {
@@ -34,6 +35,10 @@ const router = createBrowserRouter([
   {
       path:'/add-listing',
       element: <AddListing/>
+  },
+  {
+    path: '/search/:category',
+    element:<SearchByCategory/>
   }
 ]);
 

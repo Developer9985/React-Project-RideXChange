@@ -30,7 +30,7 @@ function Profile() {
         <Tabs variant={variant} color={color} size={size}  aria-label="Tabs variants "  radius={radius}   >
          <Tab  key="photos"  title="MyListing">
 
-                  <Card className='w-[1800px] mt-3'>
+                  <Card className='w-[1800px]  mt-3'>
                     <CardBody ><div> <MyListing/> </div></CardBody>
                   </Card>
 

@@ -12,7 +12,10 @@ function Header() {
         <img src="" alt="" width={150} height={100} />
 
         <ul className='hidden md:flex gap-16'>
+
+            <Link to={'/'}>
             <li className='font-medium hover:scale-105 transition-all cursor-pointer hover:text-primary'>Home</li>
+            </Link>   
             <li className='font-medium hover:scale-105 transition-all cursor-pointer hover:text-primary'>Search</li>
             <li className='font-medium hover:scale-105 transition-all cursor-pointer hover:text-primary'>New</li>
             <li className='font-medium hover:scale-105 transition-all cursor-pointer hover:text-primary'>Preowned</li>

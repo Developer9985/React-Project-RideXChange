@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input"
 import carDetails from "@/Shared/carDetails.json"
 import InputField from './Components/InputField'
 import DropdownField from './Components/DropdownField'
-import TextArea from './Components/TextArea'
+import TextAreaField from './Components/TextAreaField'
 import { Separator } from "@/components/ui/separator"
 import features from '@/Shared/features.json'
 // import { Checkbox } from 'primereact/checkbox';
@@ -12,15 +12,17 @@ import features from '@/Shared/features.json'
 import {Checkbox} from "@nextui-org/checkbox";
 import {db} from './../../configs';
 import { Button } from '@nextui-org/react'
-import { CarListing } from './../../configs/schema'
+import { CarImages, CarListing } from './../../configs/schema'
 import IconField from './Components/IconField'
 import UploadImages from './Components/UploadImages'
 import { LuLoader2 } from "react-icons/lu";
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import {useUser} from '@clerk/clerk-react'
 // import moments from 'moments'
 // import CheckboxFeild from './Components/CheckboxFeild'
 import { format } from 'date-fns';
+import { desc,eq } from 'drizzle-orm'
+import Service from '@/Shared/Service'
   
 
 function AddListing() {
@@ -30,12 +32,38 @@ function AddListing() {
     const [formData, setFormData] = useState([]);
     const [featureData, setFeatureData] = useState([]);
     const [triggerUploadImages,setTriggerUploadImages] = useState();
-
+    const [searchParams] = useSearchParams();
     const [loader, setLoader] = useState(false);
-
     const navigate = useNavigate();
-
     const {user} = useUser();
+    const [carInfo,setCarInfo] = useState();
+    
+    const mode=searchParams.get('mode'); 
+    const recordId=searchParams.get('id');
+
+
+    useEffect(()=>{
+
+        if(mode == 'edit'){
+                GetListingDetails();
+        }
+
+
+    },[]);
+
+    const GetListingDetails= async()=>{
+        const result = await db.select().from(CarListing)
+        .innerJoin(CarImages,eq(CarListing.id,CarImages.CarListingId))
+        .where(eq(CarListing.id,recordId))
+
+        const resp=Service.FormatResult(result)
+        // console.log(resp);
+        setCarInfo(resp[0])
+        setFormData(resp[0])
+        setFeatureData(resp[0].features)
+        
+    }
+   
 
 
     
@@ -76,35 +104,64 @@ function AddListing() {
         setLoader(true)
         e.preventDefault();
         console.log(formData);
-        
+
         const formattedFeatures = JSON.stringify(featureData);
-        try{
+        
+        if(mode=='edit'){
 
-            const result = await db.insert(CarListing).values({
-
+            const result = await db.update(CarListing).set({
                 ...formData,
                 features:formattedFeatures,
 
                 createdBy:user?.primaryEmailAddress?.emailAddress,
                 postedOn:format(new Date(), 'dd/MM/yyyy'),
-            },
+            }).where(eq(CarListing.id,recordId)).returning({id:CarListing.id});
 
-        
-        
-        ).returning({id:CarListing.id});
+            console.log(result);
+            setLoader(false);
+            navigate('/profile');
+            
 
-            if(result){
 
-                console.log("Data saved")
-                setTriggerUploadImages(result[0]?.id);
-                setLoader(false);
 
+
+        }else{
+
+
+            
+            try{
+    
+    
+    
+                const result = await db.insert(CarListing).values({
+    
+                    ...formData,
+                    features:formattedFeatures,
+    
+                    createdBy:user?.primaryEmailAddress?.emailAddress,
+                    postedOn:format(new Date(), 'dd/MM/yyyy'),
+                },
+    
+            
+            
+            ).returning({id:CarListing.id});
+    
+                if(result){
+    
+                    console.log("Data saved")
+                    setTriggerUploadImages(result[0]?.id);
+                    setLoader(false);
+    
+                }
+    
+            }catch(e){
+                console.log("Error",e);
+                
             }
-
-        }catch(e){
-            console.log("Error",e);
             
         }
+        
+       
       }
       
 
@@ -132,9 +189,9 @@ function AddListing() {
 
                                         {item?.label}{item.required && <span className='text-red-600'>*</span>}</label>
                                     {item.fieldType == 'text' || item.fieldType == 'number'? 
-                                        <InputField item={item} handleInputChange={handleInputChange} />
-                                        :item.fieldType == "dropdown"? <DropdownField item={item} handleInputChange={handleInputChange} />
-                                        :item.fieldType == "textarea"? <TextArea item={item} handleInputChange={handleInputChange} />
+                                        <InputField item={item} handleInputChange={handleInputChange} carInfo={carInfo} />
+                                        :item.fieldType == "dropdown"? <DropdownField item={item} handleInputChange={handleInputChange} carInfo={carInfo}/>
+                                        :item.fieldType == "textarea"? <TextAreaField item={item} handleInputChange={handleInputChange} carInfo={carInfo}/>
                                         : null}
                                 </div>
                             ))}
@@ -155,7 +212,7 @@ function AddListing() {
 
                                 <div key={index} className='flex gap-2 items-center p-3'>
                                    <Checkbox onValueChange={(value)=>handleFeatureChange(item.name,value)
-                                   } /> <h2>{item.label}</h2>
+                                   }  isSelected={featureData?.[item.name]} /> <h2>{item.label}</h2>
                                 </div>
                             ))}
                         </div>
