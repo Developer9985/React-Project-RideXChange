@@ -4,8 +4,14 @@ import { BsFillFuelPumpFill } from "react-icons/bs";
 import { RiSpeedUpFill } from "react-icons/ri";
 import { TbManualGearbox } from "react-icons/tb";
 import { IoMdOpen } from "react-icons/io";
+import { Link } from 'react-router-dom';
 function CarItem({car}) {
+
+
+
   return (
+
+    <Link to={'/listing-details/'+car?.id}>
     <div className='rounded-xl bg-white border hover:shadow-md cursor-pointer w-[300px]'>
         <img src={car?.images[0]?.imageUrl} width={'100%'} height={250} alt="" className='rounded-t-xl'/>
         <div className='p-4'>
@@ -32,6 +38,7 @@ function CarItem({car}) {
             </div>
         </div>
     </div>
+    </Link>
   )
 }
 
