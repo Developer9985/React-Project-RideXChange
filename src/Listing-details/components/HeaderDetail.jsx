@@ -25,7 +25,7 @@ function HeaderDetail({carDetail}) {
                 <TbManualGearboxFilled className='size-5'/> <h2 className='font-medium '>{carDetail?.transmission}</h2>
                 </div>
                 <div className='flex gap-2 items-center bg-[#9ec6ec69] p-3 rounded-full w-24'>
-                <BsFillFuelPumpFill className='size-5'/> <h2 className='font-medium '>{carDetail?.year}</h2>
+                <BsFillFuelPumpFill className='size-5'/> <h2 className='font-medium '>{carDetail?.fuelType}</h2>
                 </div>
             </div>
         </div>

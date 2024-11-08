@@ -20,7 +20,7 @@ function Features({features}) {
           {Object.entries(features).map(([feature, value]) => (
             <div key={feature} className='flex items-center space-x-2'> {/* Add key prop here */}
               <FaCheckCircle className='text-[#22c55e]' />
-              <h2>{feature}</h2>
+              <h2 className='font-medium'>{feature}</h2>
             </div>
           ))}
     </div>

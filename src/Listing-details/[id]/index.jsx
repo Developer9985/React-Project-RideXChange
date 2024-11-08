@@ -9,7 +9,9 @@ import {eq} from 'drizzle-orm'
 import ImageGallery from '../components/ImageGallery';
 import Description from '../components/Description';
 import Features from '../components/Features';
-// import Pricing from '../components/Pricing';
+import Pricing from '../components/Pricing';
+import Specifiction from '../components/Specifiction';
+import Footer from '@/components/Footer';
 
 
 
@@ -54,11 +56,11 @@ function ListingDetail() {
 
             
 
-            <div className='absolute top-[350px] grid grid-cols-1 md:grid-cols-3 w-full mt-10 gap-5 mx-14'>
+            <div className='absolute top-[350px] grid  grid-cols-3 w-full mt-10 gap-3 mx-[130px]'>
 
               {/* left section */}
 
-              <div className='md:col-span-2 '>
+              <div className='col-span-2 '>
                       {/* image gallery */}
                       <ImageGallery carDetail={carDetail}/>
 
@@ -72,15 +74,17 @@ function ListingDetail() {
               </div>
 
               {/* right section */}
-              <div className=''>
+              <div className='absolute mx-[1150px]'>
 
                 {/* pricing */}
 
-                {/* <Pricing carDetail={carDetail}/> */}
+                <Pricing carDetail={carDetail}/>
 
 
 
-                {/* car Properties */}
+                {/* car Specification */}
+
+                <Specifiction carDetail={carDetail}/>
 
                 {/* image details */}
                     
@@ -88,7 +92,7 @@ function ListingDetail() {
 
             </div>
 
-
+          <Footer/>
             
     </div>
   )
