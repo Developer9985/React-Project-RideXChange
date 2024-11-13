@@ -8,7 +8,7 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import Home from './Home';
-import Contact from './contact';
+
 import Profile from './Profile';
 import AddListing from './add-listing';
 import SearchByCategory from './search/[category]'
