@@ -13,10 +13,6 @@ import Pricing from '../components/Pricing';
 import Specifiction from '../components/Specifiction';
 import Footer from '@/components/Footer';
 
-
-
-
-
 function ListingDetail() {
 
     const {id} = useParams();

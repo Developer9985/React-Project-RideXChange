@@ -13,7 +13,7 @@ function Specifiction({carDetail}) {
           <div key={index} className='flex items-center justify-between '>
             
             <h2 className='font-semibold text-lg flex gap-8 p-5'>    <IconField icon={item.icon} />{item.label}</h2>
-            <h2 className='font-medium '>{carDetail[item.name]}</h2>
+            <h2 className='font-medium '>{carDetail?.[item?.name]}</h2>
           </div>
         ))}
 
