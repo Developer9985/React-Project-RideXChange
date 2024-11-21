@@ -10,7 +10,7 @@ function InfoSection() {
         <div class="relative h-64 sm:h-80 lg:h-full">
           <img
             alt=""
-            src="/public/farari.jpg"
+            src="/farari.jpg"
             class="absolute inset-0 h-full w-full object-cover"
           />
         </div>
