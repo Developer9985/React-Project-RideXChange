@@ -53,7 +53,7 @@ import { RiSpeedUpFill } from "react-icons/ri";
 import { TbManualGearbox } from "react-icons/tb";
 import { IoMdOpen } from "react-icons/io";
 import { Link } from 'react-router-dom';
-
+import { FaIndianRupeeSign } from "react-icons/fa6";
 function CarItem({ car }) {
   return (
     <Link to={'/listing-details/' + car?.id}>
@@ -88,7 +88,7 @@ function CarItem({ car }) {
           </div>
           <Separator className="bg-gray-500 h-[1px] w-full my-3" />
           <div className="flex flex-row items-center justify-between">
-            <h2 className="font-bold text-xl">${car?.sellingPrice}</h2>
+            <h2 className="font-bold text-xl">₹{car?.sellingPrice}</h2>
             <div className="flex items-center text-blue-600">
               <IoMdOpen className="mr-2" />
               <span>View Details</span>
